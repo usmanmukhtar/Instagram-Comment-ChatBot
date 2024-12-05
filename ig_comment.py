@@ -1,11 +1,11 @@
 import time
-import random
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
+import secrets
 
 class Commenter:
 	"""docstring for Commenter"""
@@ -75,7 +75,7 @@ class Commenter:
 			comment_box_elem().clear()
 			for letter in comment_text:
 				comment_box_elem().send_keys(letter)
-				time.sleep((random.randint(1, 7) / 30))
+				time.sleep((secrets.SystemRandom().randint(1, 7) / 30))
 
 			return comment_box_elem
 		except (StaleElementReferenceException, NoSuchElementException) as e:
@@ -84,7 +84,7 @@ class Commenter:
 
 	#post a comment
 	def post_comment(self, comment_text):
-		time.sleep(random.randint(1, 5))
+		time.sleep(secrets.SystemRandom().randint(1, 5))
 
 		comment_box_elem = self.write_comment(comment_text)
 		if comment_text in self.driver.page_source:
@@ -96,7 +96,7 @@ class Commenter:
 			except NoSuchElementException:
 				pass
 
-		time.sleep(random.randint(4, 6))
+		time.sleep(secrets.SystemRandom().randint(4, 6))
 		self.driver.refresh()
 		if comment_text in self.driver.page_source:
 			return True
